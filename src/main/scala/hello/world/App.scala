@@ -2,33 +2,32 @@ package hello.world
 
 import me.shadaj.slinky.core._
 import me.shadaj.slinky.core.annotations.react
-import me.shadaj.slinky.web.html._
 
 import scala.scalajs.js
+import scala.scalajs.js.Dynamic.literal
 import scala.scalajs.js.annotation.{JSImport, ScalaJSDefined}
-
-@JSImport("resources/app.css", JSImport.Default)
-@js.native
-object AppCSS extends js.Object
-
-@JSImport("resources/logo.svg", JSImport.Default)
-@js.native
-object ReactLogo extends js.Object
 
 @react class App extends Component {
   type Props = Unit
+  type State = Int
 
-  private val css = AppCSS
+  def initialState = 0
+
+  def onPress(): Unit =
+    setState(_ + 1)
 
   def render() = {
-    div(className := "App")(
-      header(className := "App-header")(
-        img(src := ReactLogo.asInstanceOf[String], className := "App-logo", alt := "logo"),
-        h1(className := "App-title")("Welcome to React (with Scala.js!)")
-      ),
-      p(className := "App-intro")(
-        "To get started, edit ", code("App.scala"), " and save to reload."
-      )
+    View(
+      style =
+        Some(literal(padding = 50))
+    )(
+      Text(
+        style =
+          Some(literal(fontSize = 30, color = "red"))
+      )("Hello, Slinky!"),
+
+      Text()("Count: " + state),
+      Button(title = "Press me", onPress = onPress)
     )
   }
 }
